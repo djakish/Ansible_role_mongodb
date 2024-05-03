@@ -41,6 +41,7 @@
               'CERT_REQUIRED' }}"
     reconfigure: "{{ (mongodb_replication_reconfigure and not mongodb_root_admin_exist_replicaset.failed) | ternary(mongodb_replication_reconfigure, false) }}"
     force: true
+    validate: false
     members: "{{ groups[item.group_name] | join(':' + mongodb_net_port | string + ',') + ':' + mongodb_net_port | string }}"
     arbiter_at_index: "{{ groups[item.group_name].index(mongodb_arbiter_index) if mongodb_arbiter_index is defined else omit }}"
   with_items:
